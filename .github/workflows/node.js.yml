@@ -29,11 +29,10 @@ jobs:
       with: 
        node-version: 18
       
-    - name: Install dependencies
-      run: npm install
-
-    - name: Generate build
-      run: npm run build
+    - name: Install dependencies and Build
+      run: |
+       npm ci
+       npm run build
     
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
