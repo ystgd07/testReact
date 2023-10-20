@@ -19,7 +19,21 @@ jobs:
     steps:
 
     - name: Check out code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+    
+    - name: Check Node v            # Node v 확인
+      run: node -v
+      
+    - name: Use node.js
+      uses: actions/setup-node@v3
+      with: 
+       node-version: 18
+      
+    - name: Install dependencies
+      run: npm install
+
+    - name: Generate build
+      run: npm run build
     
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -36,7 +50,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: docker_nodejs_demo
-        IMAGE_TAG: nodejs_demo_image
+        IMAGE_TAG: latest
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
